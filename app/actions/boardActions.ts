@@ -35,6 +35,8 @@ export async function createNewBoard(formData: FormData) {
     }
 
     revalidatePath("/");
+    revalidatePath("/mykanban");
+    redirect("/mykanban");
   } catch (error) {
     console.error("Error creating new board:", error);
   }
