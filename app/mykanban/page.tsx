@@ -1,0 +1,25 @@
+import { auth } from "@clerk/nextjs";
+import { prisma } from "@/utils/prisma";
+import Board from "@/components/Board";
+import {unstable_noStore as noStore} from "next/cache"
+
+const myKanbanPage = async () => {
+  noStore()
+  const { userId }: { userId: string | null } = auth();
+
+  const board = await prisma.kanbanBoard.findFirst({
+    where: {
+      userId: userId!,
+    },
+    include: {
+      tasks: true,
+    },
+  });
+  return (
+    <>
+      <Board board={board} />
+    </>
+  );
+};
+
+export default myKanbanPage;
